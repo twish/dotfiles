@@ -21,15 +21,16 @@ logk()	{ echo "OK"; }
 read -p "Enter your full name to be used: " userFullName
 read -p "Enter your email to be used: " userEmail
 tempDir=$(mktemp -d -t tmp.XXXXXXXXXX)
+trap 'rm $tempDir/* && rmdir $tempDir' EXIT
 
 ### Setting up sudo for script ###
-log 'Setting up persistant sudo for script...'
-sudo_stat=sudo_stat.txt
-echo $$ >> $sudo_stat
-trap 'rm -f $sudo_stat >/dev/null 2>$1' 0
-trap "exit 2" 1 2 3 15
-
 sudo_me() {
+  log 'Setting up persistant sudo for script...'
+  sudo_stat=sudo_stat.txt
+  echo $$ >> $sudo_stat
+  trap 'rm -f $sudo_stat >/dev/null 2>$1' 0
+  trap "exit 2" 1 2 3 15
+
 	while [ -f $sudo_stat ]; do
 		sudo -v
 		sleep 5
@@ -166,7 +167,7 @@ if fdesetup status | grep $Q -E "FileVault is (On|Off, but will be enabled after
 elif [ -n "$SETUP_CI" ]; then
   echo
   logn "Skipping full-disk encryption for CI"
-elif [ -n "$SETUP_INTERACTIVE" ]; then
+elif [ true ]; then
   echo
   log "Enabling full-disk encryption on next reboot:"
   sudo fdesetup enable -user "$USER" \
@@ -203,6 +204,11 @@ else
 	echo "Skipping updating shells for CI"
 fi
 logk
+
+# Enter sudo again...
+logn "Enter sudo credentials again. (Since we upgraded bash)"
+sudo -v
+sudo_me
 
 logn "Installing binaries:"
 cat > /$tempDir/Brewfile <<EOF
@@ -268,19 +274,39 @@ rm -f /tmp/Caskfile
 logk
 
 # Create Sites directory in user folder.
-logn "Create Sites directory in user folder:"
-mkdir ~/Sites
-logk
+if [ ! -d ~/Sites ]; then
+  logn "Create Sites directory in user folder:"
+  mkdir ~/Sites
+  logk
+fi
 
 # Create projects directory in user folder.
-logn "Creating projects directory in user folder."
-mkdir ~/projects
-logk
+if [ ! -d ~/projects ]; then
+  logn "Creating projects directory in user folder."
+  mkdir ~/projects
+  logk
+fi
 
 # Create screenshot directory in user folder
-logn "Create screenshots directory in user forlder."
-mkdir ~/Screenshots
-logk
+if [ ! -d ~/Screenshots ]; then
+  logn "Create screenshots directory in user forlder."
+  mkdir ~/Screenshots
+  logk
+fi
+
+# Create bin dir in user folder
+if [ ! -d ~/bin ]; then
+  logn "Create bin dir in user folder"
+  mkdir ~/bin
+  logk
+fi
+
+# Symlink sublime text terminal executable
+if [ ! -L ~/bin/subl ]; then
+  logn "Linking sublime text terminal executable to user bin dir."
+  ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" ~/bin/subl
+  logk
+fi
 
 # Setup prefered macOS settings.
 logn "Setup prefered macOS settings:"
@@ -321,7 +347,7 @@ logk
 
 ### Clean up 
 rm $sudo_stat
-rm $tempDir/*
+rm $tempDir/* 2> /dev/null
 rmdir $tempDir
 
 log 'Finished! Please reboot! Install additional software with `brew install` and `brew cask install`.'
