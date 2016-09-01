@@ -268,6 +268,10 @@ cask 'vlc'
 cask 'sublime-text'
 cask 'evernote'
 cask 'iterm2'
+cask 'alfred'
+cask 'caffeine'
+cask 'parallels-desktop11'
+cask 'google-drive'
 EOF
 brew bundle --file=/tmp/Caskfile
 rm -f /tmp/Caskfile
