@@ -1,0 +1,5 @@
+#### Bash Completions
+
+if [ -f ~/azure.completion.sh ]; then
+	. ~/azure.completion.sh
+fi

@@ -3,6 +3,10 @@ if [ -f ~/.bash_aliases ]; then
 	. ~/.bash_aliases
 fi
 
+if [ -f ~/.bash_completions ]; then
+  . ~/.bash_completions
+fi
+
 # Enable tab completion for many Bash commands.
 if which brew > /dev/null && [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
   source "$(brew --prefix)/share/bash-completion/bash_completion";
