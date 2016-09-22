@@ -14,6 +14,11 @@ if [ ! -d $currentDir ] || [ ! -f $currentDir/.bash_profile ]; then
 	exit 1
 fi
 
+if [ -L ~/.bash_profile ]; then
+	echo 'Unlinking current .bash_profile symlink...'
+	unlink ~/.bash_profile
+fi
+
 echo 'Creating link for .bash_profile in homedir...'
 ln -s $currentDir/.bash_profile ~/.bash_profile
 
@@ -32,6 +37,11 @@ if [ ! -d $currentDir ] || [ ! -f $currentDir/.bash_aliases ]; then
 	exit 1
 fi
 
+if [ -L ~/.bash_aliases ]; then
+	echo 'Unlinking current .bash_aliases symlink...'
+	unlink ~/.bash_aliases
+fi
+
 echo 'Creating link for .bash_aliases in homedir...'
 ln -s $currentDir/.bash_aliases ~/.bash_aliases
 
@@ -48,6 +58,11 @@ fi
 if [ ! -d $currentDir ] || [ ! -f $currentDir/.bash_completions ]; then
 	echo 'It seems we cannot find the sourcefile for symlinking .bash_completions. Are you executing setup.sh from within the dotfiles dir? If not - do so.'
 	exit 1
+fi
+
+if [ -L ~/.bash_completions ]; then
+	echo 'Unlinking current .bash_completions symlink...'
+	unlink ~/.bash_completions
 fi
 
 echo 'Creating link for .bash_completions in homedir...'
@@ -69,6 +84,11 @@ if [ ! -d $currentDir ] || [ ! -f $currentDir/.gitconfig ]; then
 	exit 1
 fi
 
+if [ -L ~/.gitconfig ]; then
+	echo 'Unlinking current .gitconfig symlink...'
+	unlink ~/.gitconfig
+fi
+
 echo 'Creating link for .gitconfig in homedir...'
 ln -s $currentDir/.gitconfig ~/.gitconfig
 
@@ -76,4 +96,3 @@ if [ ! -L ~/.gitconfig ]; then
 	echo 'Could not create symlink for .gitconfig, exiting...'
 	exit 1
 fi
-
