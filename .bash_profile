@@ -42,5 +42,15 @@ export TERM="xterm-color"
 # Make grep to highlight matches
 export GREP_OPTIONS='--color=auto'
 
+# Highlight manual pages.
+export LESS_TERMCAP_mb=$'\E[01;31m';
+export LESS_TERMCAP_md=$'\E[01;38;5;74m';
+export LESS_TERMCAP_me=$'\E[0m';
+export LESS_TERMCAP_se=$'\E[0m';
+export LESS_TERMCAP_so=$'\E[38;5;246m';
+export LESS_TERMCAP_ue=$'\E[0m';
+export LESS_TERMCAP_us=$'\E[04;38;5;146m';
+
+
 # PS1
 export PS1="\[\e[0;33m\]\u\[\e[0m\]@\[\e[0;32m\]\h\[\e[0m\]:\[\e[0;34m\]\W\[\e[0m\] \[\e[0;36m\]\$(__git_ps1 '(%s)')\[\e[0m\]\$ \[\e[m\]"
