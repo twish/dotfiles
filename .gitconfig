@@ -166,3 +166,7 @@
 [user]
 	name = Johannes Tveitan
 	email = johannes@tveitan.se
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true

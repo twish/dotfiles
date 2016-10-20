@@ -35,7 +35,7 @@ backup() {
 }
 
 ###### Terminal environment
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH:/Users/tveitan/bin"
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH:/Users/tveitan/bin:/Users/tveitan/.composer/vendor/bin"
 
 export TERM="xterm-color"
 
