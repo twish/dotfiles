@@ -34,9 +34,14 @@ backup() {
   cp "${1}" "${BACKUP_FILENAME}" && echo "Backup created: ${BACKUP_FILENAME}";
 }
 
-###### Terminal environment
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH:/Users/tveitan/bin:/Users/tveitan/.composer/vendor/bin"
+###### Setup PATH
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH:${HOME}/bin:${HOME}/.composer/vendor/bin"
 
+if [ -x /usr/libexec/path_helper ]; then
+  eval $(/usr/libexec/path_helper -s)
+fi
+
+###### Terminal environment
 export TERM="xterm-color"
 
 # Make grep to highlight matches
@@ -54,3 +59,4 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m';
 
 # PS1
 export PS1="\[\e[0;33m\]\u\[\e[0m\]@\[\e[0;32m\]\h\[\e[0m\]:\[\e[0;34m\]\W\[\e[0m\] \[\e[0;36m\]\$(__git_ps1 '(%s)')\[\e[0m\]\$ \[\e[m\]"
+

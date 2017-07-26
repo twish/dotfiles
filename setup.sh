@@ -96,3 +96,27 @@ if [ ! -L ~/.gitconfig ]; then
 	echo 'Could not create symlink for .gitconfig, exiting...'
 	exit 1
 fi
+
+
+##### Link global .gitignore
+if [ -f ~/.gitignore ] && [ ! -L ~/.gitignore ]; then
+	echo 'You seem to have a .gitignore created in your homedir. Please remove before running setup.sh...'
+fi
+
+if [ ! -d $currentDir ] || [ ! -f $currentDir/.gitignore ]; then
+	echo 'It seems we cannot find the sourcefile for symlinking .gitignore. Are you executing setup.sh from within the dotfiles dir? If not - do so.'
+	exit 1
+fi
+
+if [ -L ~/.gitignore ]; then
+	echo 'Unlinking current .gitignore symlink...'
+	unlink ~/.gitignore
+fi
+
+echo 'Creating link for .gitignore in homedir...'
+ln -s $currentDir/.gitignore ~/.gitignore
+
+if [ ! -L ~/.gitignore ]; then
+	echo 'Could not create symlink for .gitignore, exiting...'
+	exit 1
+fi

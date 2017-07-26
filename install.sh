@@ -230,9 +230,9 @@ npm install -g npm@latest
 logk
 
 logn "Installing PHP:"
-brew install homebrew/php/php70
-sed -i".bak" "s/^\;phar.readonly.*$/phar.readonly = Off/g" /usr/local/etc/php/7.0/php.ini
-sed -i "s/memory_limit = .*/memory_limit = -1/" /usr/local/etc/php/7.0/php.ini
+brew install homebrew/php/php71
+sed -i".bak" "s/^\;phar.readonly.*$/phar.readonly = Off/g" /usr/local/etc/php/7.1/php.ini
+sed -i "s/memory_limit = .*/memory_limit = -1/" /usr/local/etc/php/7.1/php.ini
 if [ -z "$SETUP_CI" ]; then
 	brew install homebrew/php/composer
 	brew install homebrew/php/php-cs-fixer
@@ -243,14 +243,12 @@ logk
 
 logn "Installing Mac applications:"
 export HOMEBREW_CASK_OPTS="--appdir=/Applications";
-cat > /tmp/Caskfile <<EOF
+cat > /$tempDir/Caskfile <<EOF
 cask '1password'
 cask 'appcleaner'
 cask 'atom'
 cask 'couleurs'
 cask 'dropbox'
-cask 'flux'
-cask 'github-desktop'
 cask 'google-chrome'
 cask 'imagealpha'
 cask 'imageoptim'
@@ -272,9 +270,11 @@ cask 'alfred'
 cask 'caffeine'
 cask 'parallels-desktop11'
 cask 'google-drive'
+cask 'teamviewer'
+
 EOF
-brew bundle --file=/tmp/Caskfile
-rm -f /tmp/Caskfile
+brew bundle --file=/$tempDir/Caskfile
+rm -f /$tempDir/Caskfile
 logk
 
 # Create Sites directory in user folder.
