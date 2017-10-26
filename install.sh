@@ -20,6 +20,7 @@ logk()	{ echo "OK"; }
 ### Set some scipt variables
 read -p "Enter your full name to be used: " userFullName
 read -p "Enter your email to be used: " userEmail
+read -p "Enter you phone number: " userPhone
 tempDir=$(mktemp -d -t tmp.XXXXXXXXXX)
 trap 'rm $tempDir/* && rmdir $tempDir' EXIT
 
@@ -45,8 +46,8 @@ logk
 ###################################
 
 ### Check that OS X version is compatible with script
-sw_vers -productVersion | grep $Q -E "^10.(11|12)" || {
-	abort "Run the script on macOS 10.11/12."
+sw_vers -productVersion | grep $Q -E "^10.(11|12|13)" || {
+	abort "Run the script on macOS 10.11/12/13."
 }
 
 ### Make sure script is run as yourself, not root.
@@ -157,7 +158,7 @@ sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist 2>/d
 
 # Add login screen message.
 sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText \
-	"Found this computer? Please contact $userFullName at $userEmail."
+	"Found this computer? Please contact $userFullName at $userEmail or call me at $userPhone."
 logk
 
 # Check and enable full-disk encryption.
@@ -261,7 +262,6 @@ cask 'skype'
 cask 'slack'
 cask 'spectacle'
 cask 'spotify'
-cask 'transmit'
 cask 'vlc'
 cask 'sublime-text'
 cask 'evernote'
@@ -271,6 +271,7 @@ cask 'caffeine'
 cask 'parallels-desktop11'
 cask 'google-drive'
 cask 'teamviewer'
+cask 'keybase'
 
 EOF
 brew bundle --file=/$tempDir/Caskfile
