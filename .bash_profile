@@ -60,3 +60,5 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m';
 # PS1
 export PS1="\[\e[0;33m\]\u\[\e[0m\]@\[\e[0;32m\]\h\[\e[0m\]:\[\e[0;34m\]\W\[\e[0m\] \[\e[0;36m\]\$(__git_ps1 '(%s)')\[\e[0m\]\$ \[\e[m\]"
 
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
