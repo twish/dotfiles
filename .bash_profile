@@ -41,6 +41,11 @@ if [ -x /usr/libexec/path_helper ]; then
   eval $(/usr/libexec/path_helper -s)
 fi
 
+###### Setup Go environment
+export GOPATH="${HOME}/go"
+export GOROOT="$(brew --prefix golang)/libexec"
+export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+
 ###### Terminal environment
 export TERM="xterm-color"
 
