@@ -38,13 +38,15 @@ backup() {
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH:${HOME}/bin:${HOME}/.composer/vendor/bin"
 
 if [ -x /usr/libexec/path_helper ]; then
-  eval $(/usr/libexec/path_helper -s)
-fi
+  eval $(/usr/libexec/path_helper -s);
+fi;
 
 ###### Setup Go environment
-export GOPATH="${HOME}/go"
-export GOROOT="$(brew --prefix golang)/libexec"
-export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+if which brew > /dev/null && [ -f "$(brew --prefix golang)/libexec/bin/go" ]; then
+  export GOPATH="${HOME}/go";
+  export GOROOT="$(brew --prefix golang)/libexec";
+  export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin";
+fi;
 
 ###### Terminal environment
 export TERM="xterm-color"
