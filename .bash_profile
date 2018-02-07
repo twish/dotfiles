@@ -48,6 +48,11 @@ if which brew > /dev/null && [ -f "$(brew --prefix golang)/libexec/bin/go" ]; th
   export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin";
 fi;
 
+###### Setup vscode from command line
+if [ -f /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code ]; then
+  export PATH="$PATH:/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin"
+fi;
+
 ###### Terminal environment
 export TERM="xterm-color"
 
