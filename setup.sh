@@ -50,30 +50,6 @@ if [ ! -L ~/.bash_aliases ]; then
 	exit 1
 fi
 
-##### Link .bash_completions
-if [ -f ~/.bash_completions ] && [ ! -L ~/.bash_completions ]; then
-	echo 'You seem to have a .bash_completions created in your homedir. Please remove before running setup.sh...'
-fi
-
-if [ ! -d $currentDir ] || [ ! -f $currentDir/.bash_completions ]; then
-	echo 'It seems we cannot find the sourcefile for symlinking .bash_completions. Are you executing setup.sh from within the dotfiles dir? If not - do so.'
-	exit 1
-fi
-
-if [ -L ~/.bash_completions ]; then
-	echo 'Unlinking current .bash_completions symlink...'
-	unlink ~/.bash_completions
-fi
-
-echo 'Creating link for .bash_completions in homedir...'
-ln -s $currentDir/.bash_completions ~/.bash_completions
-
-if [ ! -L ~/.bash_completions ]; then
-	echo 'Could not create symlink for .bash_completions, exiting...'
-	exit 1
-fi
-
-
 ##### Link .gitconfig
 if [ -f ~/.gitconfig ] && [ ! -L ~/.gitconfig ]; then
 	echo 'You seem to have a .gitconfig created in your homedir. Please remove before running setup.sh...'

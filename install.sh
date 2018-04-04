@@ -25,25 +25,16 @@ tempDir=$(mktemp -d -t tmp.XXXXXXXXXX)
 trap 'rm $tempDir/* && rmdir $tempDir' EXIT
 
 ### Setting up sudo for script ###
-sudo_me() {
-  log 'Setting up persistant sudo for script...'
-  sudo_stat=sudo_stat.txt
-  echo $$ >> $sudo_stat
-  trap 'rm -f $sudo_stat >/dev/null 2>$1' 0
-  trap "exit 2" 1 2 3 15
-
-	while [ -f $sudo_stat ]; do
-		sudo -v
-		sleep 5
-	done &
-}
-
-#Setting up sudo heartbeat
+log 'Setting up persistant sudo for script...'
 log "Enter your password (for sudo access):"
-sudo -v
-sudo_me
+
+sudoersDropIn=/private/etc/sudoers.d/installScriptRun
+tempSudo="$(pwd)/$(basename "$0")"
+
+trap 'echo "Removing sudoers drop in file..."; sudo rm $sudoersDropIn; sudo -k' EXIT  
+echo "$(whoami) ALL=(ALL) NOPASSWD : $tempSudo" | sudo tee $sudoersDropIn
+
 logk
-###################################
 
 ### Check that OS X version is compatible with script
 sw_vers -productVersion | grep $Q -E "^10.(11|12|13)" || {
@@ -208,8 +199,6 @@ logk
 
 # Enter sudo again...
 logn "Enter sudo credentials again. (Since we upgraded bash)"
-sudo -v
-sudo_me
 
 logn "Installing binaries:"
 cat > /$tempDir/Brewfile <<EOF
@@ -221,6 +210,8 @@ brew 'hub'
 brew 'node'
 brew 'wget'
 brew 'z'
+brew 'mas'
+brew 'go'
 EOF
 brew bundle --file=/$tempDir/Brewfile
 rm -f /$tempDir/Brewfile
@@ -272,6 +263,8 @@ cask 'parallels-desktop11'
 cask 'google-drive'
 cask 'teamviewer'
 cask 'keybase'
+cask 'visual-studio-code'
+cask 'signal'
 
 EOF
 brew bundle --file=/$tempDir/Caskfile
@@ -351,7 +344,6 @@ defaults write com.apple.dock tilesize -int 50
 logk
 
 ### Clean up 
-rm $sudo_stat
 rm $tempDir/* 2> /dev/null
 rmdir $tempDir
 
