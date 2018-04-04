@@ -1,9 +1,0 @@
-#### Bash Completions
-
-if [ -f ~/azure.completion.sh ]; then
-	. ~/azure.completion.sh
-fi
-
-if [ -f source ~/lib/azure-cli/az.completion ]; then
-	. ~/lib/azure-cli/az.completion
-fi
